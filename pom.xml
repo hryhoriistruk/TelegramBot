@@ -15,18 +15,11 @@
     </properties>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.telegram/telegrambots -->
+        <!-- Основна бібліотека Telegram Bot -->
         <dependency>
             <groupId>org.telegram</groupId>
             <artifactId>telegrambots</artifactId>
-            <version>6.3.0</version>
+            <version>5.7.1</version>
         </dependency>
-        <dependency>
-            <groupId>org.codehaus.plexus</groupId>
-            <artifactId>plexus-utils</artifactId>
-            <version>3.0.5</version>
-        </dependency>
-
     </dependencies>
-
 </project>

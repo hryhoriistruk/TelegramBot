@@ -6,9 +6,10 @@ import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -17,7 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 public class TelegramBotUtils {
-    private static final Map<Long, Integer> gloryStorage = new HashMap<>();
+    private static final Map<Long, Integer> orderCountStorage = new HashMap<>();
+
     public static Long getChatId(Update update) {
         if (update.hasMessage()) {
             return update.getMessage().getFrom().getId();
@@ -32,16 +34,23 @@ public class TelegramBotUtils {
 
     public static SendMessage createMessage(Long chatId, String text) {
         SendMessage message = new SendMessage();
-        message.setText(new String(text.getBytes(), StandardCharsets.UTF_8));
+        message.setText(text); // Використовуйте text без конвертації
         message.setParseMode("markdown");
-        message.setChatId(chatId);
+        message.setChatId(chatId.toString()); // Переконайтеся, що chatId передається як String
         return message;
     }
+
 
     public static SendMessage createMessage(Long chatId, String text, Map<String, String> buttons) {
         SendMessage message = createMessage(chatId, text);
         if (buttons != null && !buttons.isEmpty())
             attachButtons(message, buttons);
+        return message;
+    }
+
+    public static SendMessage createMessageWithKeyboard(Long chatId, String text, List<String> keyboardOptions) {
+        SendMessage message = createMessage(chatId, text);
+        attachReplyKeyboard(message, keyboardOptions);
         return message;
     }
 
@@ -53,7 +62,7 @@ public class TelegramBotUtils {
             String buttonValue = buttons.get(buttonName);
 
             InlineKeyboardButton button = new InlineKeyboardButton();
-            button.setText(new String(buttonName.getBytes(), StandardCharsets.UTF_8));
+            button.setText(buttonName); // Виправлено
             button.setCallbackData(buttonValue);
 
             keyboard.add(List.of(button));
@@ -61,6 +70,29 @@ public class TelegramBotUtils {
 
         markup.setKeyboard(keyboard);
         message.setReplyMarkup(markup);
+    }
+
+    private static void attachReplyKeyboard(SendMessage message, List<String> keyboardOptions) {
+        ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
+        List<KeyboardRow> keyboard = new ArrayList<>();
+
+        KeyboardRow row = new KeyboardRow();
+        for (String option : keyboardOptions) {
+            row.add(option);
+            if (row.size() == 2) {
+                keyboard.add(row);
+                row = new KeyboardRow();
+            }
+        }
+        if (!row.isEmpty()) {
+            keyboard.add(row);
+        }
+
+        keyboardMarkup.setKeyboard(keyboard);
+        keyboardMarkup.setResizeKeyboard(true);
+        keyboardMarkup.setOneTimeKeyboard(false);
+
+        message.setReplyMarkup(keyboardMarkup);
     }
 
     public static SendPhoto createPhotoMessage(Long chatId, String name) {
@@ -76,15 +108,15 @@ public class TelegramBotUtils {
         }
     }
 
-    public static int getGlories(Long chatId) {
-        return gloryStorage.getOrDefault(chatId, 0);
+    public static int getOrderCount(Long chatId) {
+        return orderCountStorage.getOrDefault(chatId, 0);
     }
 
-    public static void addGlories(Long chatId, int glories) {
-        gloryStorage.put(chatId, getGlories(chatId) + glories);
+    public static void addOrder(Long chatId) {
+        orderCountStorage.put(chatId, getOrderCount(chatId) + 1);
     }
 
-    public static void clearGlories(Long chatId) {
-        gloryStorage.remove(chatId);
+    public static void clearOrders(Long chatId) {
+        orderCountStorage.remove(chatId);
     }
 }
