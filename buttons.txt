@@ -1,29 +1,31 @@
+**buttons.txt** (перероблено під Frevi маркетплейс у форматі steps):
+
 =====STEP 1=====
-Злам холодильника
+Complete Profile Setup
 
 =====STEP 2=====
-Взяти сосиску! +20 слави
-Взяти рибку! +20 слави
-Скинути банку з огірками! +20 слави
+Add Programming Service! +20 reputation
+Add Design Service! +20 reputation
+Add Writing Service! +20 reputation
 
 =====STEP 3=====
-Злам робота пилососа
+Take First Project
 
 =====STEP 4=====
-Відправити робопилосос за їжею! +30 слави
-Проїхатися на робопилососі! +30 слави
-Тікати від робопилососа! +30 слави
+Complete Project Successfully! +30 reputation
+Get 5-Star Rating! +30 reputation
+Receive Client Tip! +30 reputation
 
 =====STEP 5=====
-Одягнути та включити GoPro!
+Upgrade to Premium Account
 
 =====STEP 6=====
-Бігати дахами, знімати на GoPro! +40 слави
-З GoPro нападати на інших котів із засідки! +40 слави
-З GoPro нападати на собак із засідки! +40 слави
+Complete 10 Projects! +40 reputation
+Reach Top Rated Status! +40 reputation
+Get Featured on Marketplace! +40 reputation
 
 =====STEP 7=====
-Злам пароля
+Build Portfolio Website
 
 =====STEP 8=====
-Вийти на подвір'я
+Become Marketplace Partner
